@@ -1,0 +1,1265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Find the plan for you · Linktree</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-page: #f1f0ee;
+      --bg-card: #fbfaf9;
+      --bg-title-strip: #e6e5e3;
+      --bg-pro: #f2e9ff;
+      --bg-pro-title: rgba(127, 34, 254, 0.15);
+      --bg-check: rgba(0, 0, 0, 0.1);
+      --bg-check-pro: rgba(127, 34, 254, 0.2);
+      --accent: #7008e7;
+      --text-primary: rgba(0, 0, 0, 0.9);
+      --text-secondary: rgba(0, 0, 0, 0.55);
+      --border: rgba(0, 0, 0, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: var(--bg-page);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    .page {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 80px 120px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 56px;
+    }
+    .header {
+      text-align: center;
+      max-width: 634px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .header h1 {
+      font-size: 48px;
+      font-weight: 800;
+      line-height: 1.1;
+      letter-spacing: -1.92px;
+      color: #000;
+    }
+    .header p {
+      font-size: 18px;
+      color: var(--text-secondary);
+      line-height: 24px;
+      letter-spacing: 0.09px;
+    }
+    .cards-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      width: 100%;
+    }
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding-bottom: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow: hidden;
+    }
+    .card.pro {
+      background: var(--bg-pro);
+      border: 4px solid var(--accent);
+      box-shadow: 0 16px 32px 4px rgba(0, 0, 0, 0.12);
+    }
+    .card-title-strip {
+      background: var(--bg-title-strip);
+      padding: 16px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 90px;
+    }
+    .card.pro .card-title-strip {
+      background: var(--bg-pro-title);
+    }
+    .card-title {
+      font-size: 36px;
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.54px;
+      color: var(--text-primary);
+    }
+    .card.pro .card-title {
+      color: var(--accent);
+    }
+    .badge {
+      background: var(--bg-pro);
+      border-radius: 999px;
+      padding: 10px 12px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 8px rgba(235, 197, 235, 0.2);
+    }
+    .badge svg {
+      width: 19px;
+      height: 19px;
+      fill: var(--accent);
+    }
+    .badge span {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--accent);
+      line-height: 1.2;
+    }
+    .card-body {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .price-block {
+      padding: 0 24px;
+    }
+    .price {
+      font-weight: 700;
+      letter-spacing: -0.8px;
+      color: var(--text-primary);
+      white-space: nowrap;
+    }
+    .price-amount {
+      font-size: 34px;
+      letter-spacing: -0.51px;
+    }
+    .card.pro .price-amount {
+      color: var(--accent);
+    }
+    .price-period {
+      font-size: 21.5px;
+      font-weight: 400;
+      color: var(--text-secondary);
+      letter-spacing: 0.22px;
+    }
+    .price-sub {
+      margin-top: 4px;
+      font-size: 16px;
+      color: var(--text-secondary);
+      line-height: 24px;
+      letter-spacing: 0.16px;
+    }
+    .cta-wrapper {
+      padding: 0 24px;
+    }
+    .cta {
+      width: 100%;
+      padding: 14px 24px;
+      border-radius: 999px;
+      font-size: 16px;
+      font-weight: 600;
+      font-family: inherit;
+      cursor: pointer;
+      transition: opacity 0.15s ease, transform 0.15s ease;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-primary);
+    }
+    .cta:active { transform: scale(0.98); }
+    .cta.primary {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+    }
+    .divider {
+      margin: 0 24px;
+      height: 1px;
+      background: var(--border);
+    }
+    .features {
+      padding: 0 24px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .features-heading {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 20px;
+      letter-spacing: 0.175px;
+    }
+    .features-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .feature {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .check {
+      width: 18.5px;
+      height: 18.5px;
+      border-radius: 50%;
+      background: var(--bg-check);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .card.pro .check {
+      background: var(--bg-check-pro);
+    }
+    .check svg {
+      width: 10px;
+      height: 10px;
+    }
+    .feature-text {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 24px;
+      letter-spacing: 0.16px;
+    }
+    .reviews-belt {
+      width: 100%;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 32px 24px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: end;
+      gap: 48px;
+    }
+    .review {
+      display: flex;
+      gap: 24px;
+      align-items: center;
+      grid-column: 2;
+      justify-self: center;
+      max-width: 535px;
+    }
+    .pagination {
+      grid-column: 3;
+      justify-self: end;
+    }
+    .avatar {
+      width: 104px;
+      height: 104px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 32px;
+      color: #fff;
+    }
+    .review-content {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .stars {
+      display: flex;
+      gap: 1px;
+    }
+    .stars svg {
+      width: 14px;
+      height: 14px;
+      fill: var(--accent);
+    }
+    .quote {
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 24px;
+      color: var(--text-secondary);
+      letter-spacing: -0.2px;
+    }
+    .attribution {
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 20px;
+    }
+    .attribution .name {
+      font-weight: 800;
+    }
+    .pagination {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+    .page-count {
+      font-size: 16px;
+      font-weight: 800;
+      color: var(--text-secondary);
+      letter-spacing: 0.2px;
+    }
+    .page-count .denominator {
+      font-weight: 600;
+    }
+    .nav-btns {
+      display: flex;
+      gap: 12px;
+    }
+    .nav-btn {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 0.75px solid rgba(0, 0, 0, 0.14);
+      background: transparent;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s ease;
+    }
+    .nav-btn:hover { background: rgba(0,0,0,0.04); transform: scale(1.05); }
+    .nav-btn svg { width: 18px; height: 18px; }
+    .nav-btn { transition: background 0.15s ease, transform 0.15s ease; }
+
+    /* ============================================
+       MICRO-INTERACTIONS & ANIMATIONS
+       ============================================ */
+
+    /* Respect reduced-motion preference */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Cards: position context for spotlight + hover transitions */
+    .card {
+      position: relative;
+      transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.45s ease, filter 0.45s ease;
+    }
+    .card > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Card hover: very subtle shadow lift, no scale */
+    .card:hover {
+      box-shadow: 0 14px 28px rgba(0, 0, 0, 0.05);
+    }
+    .card.pro:hover {
+      animation-play-state: paused;
+      filter: drop-shadow(0 10px 18px rgba(112, 8, 231, 0.10));
+    }
+
+    /* Plan title: no hover animation */
+
+    /* Pro card cursor-tracking spotlight */
+    .card.pro::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: 22px;
+      background: radial-gradient(circle 340px at var(--spot-x, 50%) var(--spot-y, 50%), rgba(255, 255, 255, 0.5), transparent 55%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .card.pro:hover::after { opacity: 1; }
+
+    /* Card entrance: rise + fade */
+    @keyframes card-rise {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Pro breathing pulse — subtle purple glow on a loop */
+    @keyframes pulse-pro {
+      0%, 100% { box-shadow: 0 16px 32px 4px rgba(0, 0, 0, 0.12); }
+      50% { box-shadow: 0 16px 32px 4px rgba(0, 0, 0, 0.12), 0 0 36px rgba(112, 8, 231, 0.22); }
+    }
+
+    .card.starter {
+      animation: card-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.5s backwards;
+    }
+    .card.pro {
+      animation: card-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.6s backwards,
+                 pulse-pro 4s ease-in-out 1.8s infinite;
+    }
+    .card.premium {
+      animation: card-rise 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) 0.7s backwards;
+    }
+
+    /* Checkmark stagger-in after cards land */
+    @keyframes feature-pop {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .cards-row .features-heading,
+    .cards-row .feature {
+      animation: feature-pop 0.4s cubic-bezier(0.2, 0.8, 0.2, 1) backwards;
+    }
+    .cards-row .features-heading { animation-delay: 1.3s; }
+    .cards-row .feature:nth-of-type(1) { animation-delay: 1.4s; }
+    .cards-row .feature:nth-of-type(2) { animation-delay: 1.48s; }
+    .cards-row .feature:nth-of-type(3) { animation-delay: 1.56s; }
+    .cards-row .feature:nth-of-type(4) { animation-delay: 1.64s; }
+    .cards-row .feature:nth-of-type(5) { animation-delay: 1.72s; }
+
+    /* Headline: simple fade-up entrance */
+    .header h1 {
+      animation: fade-up 0.7s ease-out 0.2s backwards;
+    }
+
+    /* Subtitle fade-in */
+    @keyframes fade-up {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .header p {
+      animation: fade-up 0.6s ease-out 0.5s backwards;
+    }
+    .reviews-belt { animation: fade-up 0.7s ease-out 1.9s backwards; }
+    /* Secondary cards: scroll-triggered fade-in (see IntersectionObserver in JS) */
+    .secondary-cards .row-card {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.7s ease-out, transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .secondary-cards .row-card.in-view {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* "Most popular" badge: quiet fade-in after Pro card lands */
+    .badge {
+      animation: fade-up 0.5s ease-out 1.5s backwards;
+    }
+
+    /* Review crossfade — avatar matches text (no slide) */
+    .review-content, .review .avatar {
+      transition: opacity 0.28s ease;
+    }
+    .reviews-belt.changing .review-content { opacity: 0; }
+    .reviews-belt.changing .avatar { opacity: 0; }
+
+    /* Star shimmer on review change */
+    @keyframes star-shimmer {
+      0% { filter: brightness(1); }
+      40% { filter: brightness(1.4) drop-shadow(0 0 6px rgba(112, 8, 231, 0.6)); }
+      100% { filter: brightness(1); }
+    }
+    .stars.shimmer svg {
+      animation: star-shimmer 0.7s ease-out;
+    }
+    .stars svg:nth-child(1) { animation-delay: 0ms; }
+    .stars svg:nth-child(2) { animation-delay: 50ms; }
+    .stars svg:nth-child(3) { animation-delay: 100ms; }
+    .stars svg:nth-child(4) { animation-delay: 150ms; }
+    .stars svg:nth-child(5) { animation-delay: 200ms; }
+
+    /* CTA: single ripple on hover-entry, then settles to a low-intensity ambient glow */
+    @keyframes cta-ripple-outline {
+      0% { box-shadow: 0 0 0 0 rgba(0, 0, 0, 0); }
+      6% { box-shadow: 0 0 10px 2px rgba(0, 0, 0, 0.13); }
+      100% { box-shadow: 0 0 22px 4px rgba(0, 0, 0, 0.05); }
+    }
+    @keyframes cta-ripple-primary {
+      0% { box-shadow: 0 0 0 0 rgba(112, 8, 231, 0); }
+      6% { box-shadow: 0 0 10px 2px rgba(112, 8, 231, 0.55); }
+      100% { box-shadow: 0 0 28px 6px rgba(112, 8, 231, 0.12); }
+    }
+    .cta {
+      transition: background 0.3s ease, color 0.3s ease;
+      position: relative;
+      isolation: isolate;
+    }
+    /* Pseudo holds the ripple; one-shot animation per hover, fade-out on un-hover */
+    .cta::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      pointer-events: none;
+      transition: box-shadow 0.5s ease-out;
+    }
+    .cta:not(.primary):hover::after {
+      animation: cta-ripple-outline 2s ease-out forwards;
+    }
+    .cta.primary:hover::after {
+      animation: cta-ripple-primary 2s ease-out forwards;
+    }
+
+    .cta.has-arrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .cta.has-arrow .arrow {
+      transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .cta.has-arrow:hover .arrow {
+      transform: translateX(5px);
+    }
+    .cta.primary:hover {
+      background: #7e1eee;
+    }
+    /* Press states — still feels real */
+    .cta:active {
+      transform: scale(0.96);
+      transition: transform 0.1s ease-out;
+    }
+    .cta.primary:active {
+      background: #6b00d6;
+    }
+    .cta.has-arrow:active .arrow {
+      transform: translateX(7px);
+      transition: transform 0.1s ease-out;
+    }
+
+    /* Feature checkmark hover bounce */
+    .feature .check {
+      transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .feature:hover .check {
+      transform: scale(1.2);
+    }
+
+    /* ============================================
+       FEATURE HOVER POPOVER
+       ============================================ */
+
+    .cards-row {
+      position: relative;
+    }
+
+    .feature-popover {
+      position: absolute;
+      background: var(--bg-card);
+      border-radius: 20px;
+      padding: 18px 22px;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      text-align: left;
+      gap: 18px;
+      opacity: 0;
+      transform: translateY(-8px) scale(0.98);
+      transform-origin: top center;
+      transition: opacity 0.25s ease, transform 0.28s cubic-bezier(0.2, 0.8, 0.2, 1);
+      pointer-events: none;
+      z-index: 20;
+      box-shadow: 0 16px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+      border: 1px solid var(--border);
+    }
+    .popover-text { flex: 1; min-width: 0; }
+    .feature-popover.theme-pro {
+      background: var(--bg-pro);
+      border-color: rgba(127, 34, 254, 0.2);
+    }
+    .feature-popover.active {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+      pointer-events: auto;
+    }
+
+    .feature-illo {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      flex-shrink: 0;
+      background: linear-gradient(135deg, #b4b3af, #74726c);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+    .feature-popover.theme-starter .feature-illo {
+      background: linear-gradient(135deg, #fbbf24, #f97316);
+    }
+    .feature-popover.theme-pro .feature-illo {
+      background: linear-gradient(135deg, #c084fc, #7008e7);
+      box-shadow: 0 8px 20px rgba(112, 8, 231, 0.3);
+    }
+    .feature-popover.theme-premium .feature-illo {
+      background: linear-gradient(135deg, #818cf8, #4338ca);
+      box-shadow: 0 8px 20px rgba(67, 56, 202, 0.25);
+    }
+    .feature-illo svg {
+      width: 28px;
+      height: 28px;
+    }
+
+    @keyframes illo-pop {
+      0% { transform: scale(0.6) rotate(-8deg); opacity: 0; }
+      60% { transform: scale(1.08) rotate(2deg); }
+      100% { transform: scale(1) rotate(0); opacity: 1; }
+    }
+    .feature-illo.pop {
+      animation: illo-pop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .overlay-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: -0.1px;
+      margin: 0 0 4px 0;
+      line-height: 1.25;
+    }
+    .feature-popover.theme-pro .overlay-title {
+      color: var(--accent);
+    }
+    .overlay-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 18px;
+      margin: 0;
+    }
+
+    @keyframes text-rise {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .overlay-title.rising {
+      animation: text-rise 0.3s ease-out 0.05s backwards;
+    }
+    .overlay-desc.rising {
+      animation: text-rise 0.3s ease-out 0.13s backwards;
+    }
+
+    /* Visual link: subtle + smooth feature text hover */
+    .feature .feature-text {
+      transition: color 0.4s ease-out, letter-spacing 0.4s ease-out;
+    }
+    .feature:hover .feature-text,
+    .feature.is-active .feature-text {
+      color: var(--text-primary);
+      letter-spacing: 0.22px;
+    }
+    .feature.is-active .check {
+      transform: scale(1.2);
+    }
+    .secondary-cards {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+    .row-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 23px 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+    .row-card.stacked {
+      align-items: flex-start;
+    }
+    .row-card-text {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .row-card.stacked .row-card-text {
+      gap: 16px;
+      flex: 1;
+    }
+    .row-card-title {
+      font-size: 30px;
+      font-weight: 700;
+      line-height: 36px;
+      letter-spacing: -0.45px;
+      color: var(--text-primary);
+    }
+    .row-card-subtitle {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--text-primary);
+      line-height: 24px;
+      letter-spacing: 0.16px;
+    }
+    .row-card .features-list {
+      gap: 8px;
+    }
+    .cta-row {
+      flex-shrink: 0;
+      width: auto;
+      padding: 12px 20px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="header">
+      <h1>Find the plan for you</h1>
+      <p>You can cancel at any time.</p>
+    </section>
+
+    <section class="cards-row">
+      <!-- Starter -->
+      <article class="card starter">
+        <div class="card-title-strip">
+          <h2 class="card-title">Starter</h2>
+        </div>
+        <div class="card-body">
+          <div class="price-block">
+            <div class="price">
+              <span class="price-amount">$8</span><span class="price-period">/mo</span>
+            </div>
+            <div class="price-sub">Billed annually, or $10 monthly</div>
+          </div>
+          <div class="cta-wrapper">
+            <button class="cta">Get started</button>
+          </div>
+          <div class="divider"></div>
+          <div class="features">
+            <div class="features-heading">Everything in Free, plus:</div>
+            <div class="features-list">
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">Basic Linktree &amp; analytics (3 mo)</div>
+              </div>
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">Sell products (9% seller fees)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Pro (highlighted) -->
+      <article class="card pro">
+        <div class="card-title-strip">
+          <h2 class="card-title">Pro</h2>
+          <div class="badge">
+            <svg viewBox="0 0 19 19" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 1.5l2.5 5.1 5.6.8-4 4 1 5.6L9.5 14.4 4.4 17l1-5.6-4-4 5.6-.8z"/></svg>
+            <span>Most popular</span>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="price-block">
+            <div class="price">
+              <span class="price-amount">$12</span><span class="price-period">/mo</span>
+            </div>
+            <div class="price-sub">Billed annually, or $15 monthly</div>
+          </div>
+          <div class="cta-wrapper">
+            <button class="cta primary">Try free for 7 days</button>
+          </div>
+          <div class="divider"></div>
+          <div class="features">
+            <div class="features-heading">Everything in Starter, plus:</div>
+            <div class="features-list">
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="#7008e7" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">Hide Linktree branding</div>
+              </div>
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="#7008e7" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">Pro themes, fonts, layouts, &amp; links</div>
+              </div>
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="#7008e7" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">Advanced analytics (1 year range)</div>
+              </div>
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="#7008e7" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">Instagram auto-replies</div>
+              </div>
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="#7008e7" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">Mailing list integrations</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- Premium -->
+      <article class="card premium">
+        <div class="card-title-strip">
+          <h2 class="card-title">Premium</h2>
+        </div>
+        <div class="card-body">
+          <div class="price-block">
+            <div class="price">
+              <span class="price-amount">$30</span><span class="price-period">/mo</span>
+            </div>
+            <div class="price-sub">Billed annually, or $35 monthly</div>
+          </div>
+          <div class="cta-wrapper">
+            <button class="cta">Try free for 7 days</button>
+          </div>
+          <div class="divider"></div>
+          <div class="features">
+            <div class="features-heading">Everything in Pro, plus:</div>
+            <div class="features-list">
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">No seller fees — 0% on every sale</div>
+              </div>
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">2nd feature</div>
+              </div>
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">Forever analytics &amp; data exporting</div>
+              </div>
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">Unlimited Instagram auto-replies</div>
+              </div>
+              <div class="feature">
+                <div class="check">
+                  <svg viewBox="0 0 10 10" xmlns="http://www.w3.org/2000/svg"><path d="M2 5l2 2 4-4" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <div class="feature-text">Scheduled social posts &amp; links</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="reviews-belt">
+      <div class="review">
+        <div class="avatar" id="review-avatar">RL</div>
+        <div class="review-content">
+          <div class="stars">
+            <svg viewBox="0 0 14 14"><path d="M7 1l1.9 3.8 4.2.6-3 2.9.7 4.2L7 10.5 3.2 12.5l.7-4.2-3-2.9 4.2-.6z"/></svg>
+            <svg viewBox="0 0 14 14"><path d="M7 1l1.9 3.8 4.2.6-3 2.9.7 4.2L7 10.5 3.2 12.5l.7-4.2-3-2.9 4.2-.6z"/></svg>
+            <svg viewBox="0 0 14 14"><path d="M7 1l1.9 3.8 4.2.6-3 2.9.7 4.2L7 10.5 3.2 12.5l.7-4.2-3-2.9 4.2-.6z"/></svg>
+            <svg viewBox="0 0 14 14"><path d="M7 1l1.9 3.8 4.2.6-3 2.9.7 4.2L7 10.5 3.2 12.5l.7-4.2-3-2.9 4.2-.6z"/></svg>
+            <svg viewBox="0 0 14 14"><path d="M7 1l1.9 3.8 4.2.6-3 2.9.7 4.2L7 10.5 3.2 12.5l.7-4.2-3-2.9 4.2-.6z"/></svg>
+          </div>
+          <p class="quote" id="review-quote">&ldquo;Linktree simplifies the process for creators to share multiple parts of themselves in one inclusive link.&rdquo;</p>
+          <div class="attribution">
+            <span class="name" id="review-name">Riley Lemon,</span><br>
+            <span id="review-role">YouTuber</span>
+          </div>
+        </div>
+      </div>
+      <div class="pagination">
+        <span class="page-count"><span id="review-index">1</span><span class="denominator"> / 5</span></span>
+        <div class="nav-btns">
+          <button class="nav-btn" aria-label="Previous review" id="review-prev">
+            <svg viewBox="0 0 18 18" fill="none"><path d="M11 4L6 9l5 5" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="nav-btn" aria-label="Next review" id="review-next">
+            <svg viewBox="0 0 18 18" fill="none"><path d="M7 4l5 5-5 5" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <section class="secondary-cards">
+      <div class="row-card">
+        <div class="row-card-text">
+          <div class="row-card-title">Agency or Enterprise</div>
+          <div class="row-card-subtitle">Get team seats, SSO, dedicated support, and custom contracts</div>
+        </div>
+        <button class="cta cta-row has-arrow">Get in touch
+          <svg class="arrow" width="16" height="16" viewBox="0 0 18 18" fill="none" aria-hidden="true"><path d="M4 9h10M9 4l5 5-5 5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="row-card stacked">
+        <div class="row-card-text">
+          <div class="row-card-title">Free</div>
+          <div class="features-list">
+            <div class="feature">
+              <div class="check">
+                <svg viewBox="0 0 10 10"><path d="M2 5l2 2 4-4" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="feature-text">Unlimited basic links</div>
+            </div>
+            <div class="feature">
+              <div class="check">
+                <svg viewBox="0 0 10 10"><path d="M2 5l2 2 4-4" stroke="rgba(0,0,0,0.7)" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <div class="feature-text">Sell products, courses, and make money on brand offers</div>
+            </div>
+          </div>
+        </div>
+        <button class="cta cta-row">Get started</button>
+      </div>
+    </section>
+  </main>
+  <script>
+    /* ===== CTA cursor-following shimmer ===== */
+    document.querySelectorAll('.cta').forEach(cta => {
+      // Wrap text content in a label span so it stacks above the shimmer
+      if (!cta.querySelector('.cta-label')) {
+        const textNodes = [];
+        cta.childNodes.forEach(n => {
+          if (n.nodeType === 3 && n.textContent.trim()) textNodes.push(n);
+        });
+        if (textNodes.length) {
+          const label = document.createElement('span');
+          label.className = 'cta-label';
+          textNodes.forEach(n => label.appendChild(n));
+          cta.insertBefore(label, cta.firstChild);
+        }
+      }
+      cta.addEventListener('mousemove', (e) => {
+        const rect = cta.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        cta.style.setProperty('--cta-x', x + '%');
+        cta.style.setProperty('--cta-y', y + '%');
+      });
+    });
+
+    /* ===== Reviews carousel: data, render, auto-rotate, crossfade ===== */
+    const reviews = [
+      {
+        initials: 'RL',
+        gradient: 'linear-gradient(135deg, #fbbf24, #f97316)',
+        quote: '“Linktree simplifies the process for creators to share multiple parts of themselves in one inclusive link.”',
+        name: 'Riley Lemon,',
+        role: 'YouTuber'
+      },
+      {
+        initials: 'AP',
+        gradient: 'linear-gradient(135deg, #c084fc, #ec4899)',
+        quote: '“All my links, all my platforms, one place. Linktree made it so my listeners never lose track of me.”',
+        name: 'Alicia Park,',
+        role: 'Podcaster'
+      },
+      {
+        initials: 'JK',
+        gradient: 'linear-gradient(135deg, #38bdf8, #06b6d4)',
+        quote: '“I went from juggling five bio links to one tap. The Pro analytics are how I know what’s actually working.”',
+        name: 'Jordan Kim,',
+        role: 'TikTok creator'
+      },
+      {
+        initials: 'MC',
+        gradient: 'linear-gradient(135deg, #34d399, #0d9488)',
+        quote: '“Linktree turned my followers into subscribers. The custom themes mean it actually feels like my brand.”',
+        name: 'Maya Chen,',
+        role: 'Newsletter writer'
+      },
+      {
+        initials: 'DR',
+        gradient: 'linear-gradient(135deg, #fbbf24, #dc2626)',
+        quote: '“Tickets, streams, merch — every fan tap finds the right destination. Worth it on day one.”',
+        name: 'Devon Reyes,',
+        role: 'Musician'
+      }
+    ];
+
+    let current = 0;
+    let autoTimer = null;
+    const belt = document.querySelector('.reviews-belt');
+
+    function applyReviewData() {
+      const r = reviews[current];
+      const avatar = document.getElementById('review-avatar');
+      avatar.textContent = r.initials;
+      avatar.style.background = r.gradient;
+      document.getElementById('review-quote').innerHTML = r.quote;
+      document.getElementById('review-name').textContent = r.name;
+      document.getElementById('review-role').textContent = r.role;
+      document.getElementById('review-index').textContent = current + 1;
+    }
+
+    function triggerStarShimmer() {
+      const stars = document.querySelector('.stars');
+      stars.classList.remove('shimmer');
+      // Force reflow so animation re-runs
+      void stars.offsetWidth;
+      stars.classList.add('shimmer');
+    }
+
+    function changeReview() {
+      belt.classList.add('changing');
+      setTimeout(() => {
+        applyReviewData();
+        belt.classList.remove('changing');
+        triggerStarShimmer();
+      }, 280);
+    }
+
+    function advance(delta) {
+      current = (current + delta + reviews.length) % reviews.length;
+      changeReview();
+    }
+
+    function startAutoRotate() {
+      stopAutoRotate();
+      autoTimer = setInterval(() => advance(1), 8000);
+    }
+    function stopAutoRotate() {
+      if (autoTimer) { clearInterval(autoTimer); autoTimer = null; }
+    }
+
+    document.getElementById('review-prev').addEventListener('click', () => {
+      advance(-1);
+      startAutoRotate();
+    });
+    document.getElementById('review-next').addEventListener('click', () => {
+      advance(1);
+      startAutoRotate();
+    });
+
+    belt.addEventListener('mouseenter', stopAutoRotate);
+    belt.addEventListener('mouseleave', startAutoRotate);
+
+    // Kick off auto-rotation after the entrance sequence settles
+    setTimeout(startAutoRotate, 3000);
+
+    /* ===== Pro card cursor-tracking spotlight ===== */
+    const proCard = document.querySelector('.card.pro');
+    if (proCard) {
+      proCard.addEventListener('mousemove', (e) => {
+        const rect = proCard.getBoundingClientRect();
+        const x = ((e.clientX - rect.left) / rect.width) * 100;
+        const y = ((e.clientY - rect.top) / rect.height) * 100;
+        proCard.style.setProperty('--spot-x', x + '%');
+        proCard.style.setProperty('--spot-y', y + '%');
+      });
+    }
+
+    /* ===== Feature hover overlay: illustration + description ===== */
+    const featureData = {
+      'Basic Linktree & analytics (3 mo)': {
+        title: 'Basic analytics',
+        desc: 'See clicks, views, and top-performing links across your last 3 months.',
+        icon: 'chart-bar'
+      },
+      'Sell products (9% seller fees)': {
+        title: 'Sell anything',
+        desc: 'Digital downloads, physical goods, or services — all from one place. 9% seller fee.',
+        icon: 'shopping-bag'
+      },
+      'Hide Linktree branding': {
+        title: 'Your page, your brand',
+        desc: 'Remove the Linktree footer for a fully white-label experience.',
+        icon: 'eye-off'
+      },
+      'Pro themes, fonts, layouts, & links': {
+        title: 'Premium customization',
+        desc: 'Stand out with exclusive themes, custom typography, and pro link styles.',
+        icon: 'palette'
+      },
+      'Advanced analytics (1 year range)': {
+        title: 'Deeper insights',
+        desc: 'Traffic sources, audience locations, and trends across a full year.',
+        icon: 'chart-line'
+      },
+      'Instagram auto-replies': {
+        title: 'Auto-DM your fans',
+        desc: 'Reply to comments automatically — keep fans engaged while you sleep.',
+        icon: 'messages'
+      },
+      'Mailing list integrations': {
+        title: 'Capture subscribers',
+        desc: 'Send visitors into Mailchimp, ConvertKit, or your CRM of choice.',
+        icon: 'mail'
+      },
+      'No seller fees — 0% on every sale': {
+        title: 'Keep 100%',
+        desc: 'Zero seller fees, ever. Every dollar of every sale stays with you.',
+        icon: 'coin'
+      },
+      '2nd feature': {
+        title: 'Another perk',
+        desc: 'A premium feature that levels up your creator workflow.',
+        icon: 'star'
+      },
+      'Forever analytics & data exporting': {
+        title: 'Forever analytics',
+        desc: 'Full analytics history with one-click CSV export, anytime.',
+        icon: 'download'
+      },
+      'Unlimited Instagram auto-replies': {
+        title: 'Unlimited replies',
+        desc: 'No caps on auto-DMs — automate across every campaign.',
+        icon: 'infinity'
+      },
+      'Scheduled social posts & links': {
+        title: 'Schedule ahead',
+        desc: 'Plan content and links to go live exactly when you want.',
+        icon: 'calendar'
+      }
+    };
+
+    const icons = {
+      'chart-bar': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="21" x2="21" y2="21"/><rect x="4" y="13" width="4" height="8" rx="1"/><rect x="10" y="9" width="4" height="12" rx="1"/><rect x="16" y="5" width="4" height="16" rx="1"/></svg>',
+      'shopping-bag': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8h14l-1.2 12.2a1 1 0 0 1-1 .8H7.2a1 1 0 0 1-1-.8L5 8z"/><path d="M9 8a3 3 0 0 1 6 0"/></svg>',
+      'eye-off': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3l18 18"/><path d="M10.7 6.6a8 8 0 0 1 1.3-.1c6 0 9 6 9 6-.5 1.1-1.4 2.3-2.6 3.3"/><path d="M6.4 8.6C4.7 10 3 12 3 12s3 6 9 6c1.2 0 2.4-.3 3.4-.7"/><path d="M9 12a3 3 0 0 0 5.2 2.1"/></svg>',
+      'palette': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a9 9 0 1 0 0 18c.6 0 1-.4 1-1 0-.5-.3-.9-.3-1.5s.3-1 .8-1H15a4 4 0 0 0 4-4 8 8 0 0 0-7-7z"/><circle cx="7" cy="11" r="1" fill="currentColor"/><circle cx="11" cy="6" r="1" fill="currentColor"/><circle cx="15" cy="6" r="1" fill="currentColor"/><circle cx="17" cy="11" r="1" fill="currentColor"/></svg>',
+      'chart-line': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 6-7"/></svg>',
+      'messages': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-8 8 8.4 8.4 0 0 1-3.8-.9L4 20l1-4.2A8 8 0 1 1 21 12z"/><circle cx="8.5" cy="12" r="0.7" fill="currentColor"/><circle cx="12" cy="12" r="0.7" fill="currentColor"/><circle cx="15.5" cy="12" r="0.7" fill="currentColor"/></svg>',
+      'mail': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+      'coin': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M14.5 8.5h-3.5a2 2 0 0 0 0 4h2a2 2 0 0 1 0 4h-3.5"/><path d="M12 7v10"/></svg>',
+      'star': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/></svg>',
+      'download': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/><path d="M7 11l5 5 5-5"/><path d="M12 4v12"/></svg>',
+      'infinity': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9.83 12c0 2.2-1.7 4-3.83 4s-3.83-1.8-3.83-4 1.7-4 3.83-4c1.3 0 3 1.6 6 4s4.7 4 6 4c2.13 0 3.83-1.8 3.83-4s-1.7-4-3.83-4-3 1.6-6 4-3 4-6 4"/></svg>',
+      'calendar': '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="8" y1="3" x2="8" y2="7"/><line x1="16" y1="3" x2="16" y2="7"/></svg>'
+    };
+
+    function initFeaturePopover() {
+      const cardsRow = document.querySelector('.cards-row');
+      if (!cardsRow) return;
+
+      // Single floating popover, lives outside the cards
+      const popover = document.createElement('div');
+      popover.className = 'feature-popover';
+      popover.setAttribute('aria-hidden', 'true');
+      popover.innerHTML = '<div class="feature-illo"><span class="overlay-icon-wrap" aria-hidden="true"></span></div><div class="popover-text"><h3 class="overlay-title"></h3><p class="overlay-desc"></p></div>';
+      cardsRow.appendChild(popover);
+
+      const iconWrap = popover.querySelector('.overlay-icon-wrap');
+      const titleEl = popover.querySelector('.overlay-title');
+      const descEl = popover.querySelector('.overlay-desc');
+      const illo = popover.querySelector('.feature-illo');
+
+      let hideTimer = null;
+      let activeFeature = null;
+
+      function hidePopover() {
+        popover.classList.remove('active');
+        if (activeFeature) {
+          activeFeature.classList.remove('is-active');
+          activeFeature = null;
+        }
+      }
+
+      function retriggerAnimation(el, className) {
+        el.classList.remove(className);
+        void el.offsetWidth;
+        el.classList.add(className);
+      }
+
+      function showPopover(feature, card) {
+        const text = feature.querySelector('.feature-text')?.textContent?.trim();
+        const data = featureData[text];
+        if (!data) return;
+
+        clearTimeout(hideTimer);
+
+        // Theme based on which card we're in
+        const themeClass = card.classList.contains('starter') ? 'theme-starter' :
+                           card.classList.contains('pro') ? 'theme-pro' : 'theme-premium';
+        const wasActive = popover.classList.contains('active');
+
+        popover.className = `feature-popover ${themeClass}` + (wasActive ? ' active' : '');
+
+        // Update content
+        iconWrap.innerHTML = icons[data.icon] || '';
+        titleEl.textContent = data.title;
+        descEl.textContent = data.desc;
+
+        // Mark hovered feature as visually active
+        if (activeFeature && activeFeature !== feature) {
+          activeFeature.classList.remove('is-active');
+        }
+        activeFeature = feature;
+        feature.classList.add('is-active');
+
+        // Position directly below the card, full card width
+        const cardRect = card.getBoundingClientRect();
+        const rowRect = cardsRow.getBoundingClientRect();
+        const gap = 12;
+
+        const left = cardRect.left - rowRect.left;
+        const top = cardRect.bottom - rowRect.top + gap;
+        const width = cardRect.width;
+
+        popover.style.left = left + 'px';
+        popover.style.top = top + 'px';
+        popover.style.width = width + 'px';
+
+        // Re-trigger animations on every content change
+        retriggerAnimation(illo, 'pop');
+        retriggerAnimation(titleEl, 'rising');
+        retriggerAnimation(descEl, 'rising');
+
+        // Activate
+        requestAnimationFrame(() => popover.classList.add('active'));
+      }
+
+      document.querySelectorAll('.cards-row .card').forEach(card => {
+        card.querySelectorAll('.feature').forEach(feature => {
+          feature.addEventListener('mouseenter', () => showPopover(feature, card));
+        });
+
+        const featuresList = card.querySelector('.features-list');
+        if (featuresList) {
+          featuresList.addEventListener('mouseleave', () => {
+            hideTimer = setTimeout(hidePopover, 140);
+          });
+        }
+      });
+
+      // Keep the popover visible while cursor is on it
+      popover.addEventListener('mouseenter', () => clearTimeout(hideTimer));
+      popover.addEventListener('mouseleave', () => {
+        hideTimer = setTimeout(hidePopover, 140);
+      });
+    }
+
+    initFeaturePopover();
+
+    /* ===== Scroll-triggered fade-in for secondary cards ===== */
+    (function() {
+      if (!('IntersectionObserver' in window)) {
+        document.querySelectorAll('.secondary-cards .row-card').forEach(el => el.classList.add('in-view'));
+        return;
+      }
+      let observed = 0;
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const idx = observed++;
+            setTimeout(() => entry.target.classList.add('in-view'), idx * 100);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+
+      document.querySelectorAll('.secondary-cards .row-card').forEach(el => observer.observe(el));
+    })();
+  </script>
+</body>
+</html>
